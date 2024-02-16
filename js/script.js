@@ -86,6 +86,10 @@ async function displayMovieDetails() {
 
 	const movie = await fetchAPIData(`movie/${movieId}`);
 
+	const { results } = await fetchAPIData(`movie/${movieId}/watch/providers`);
+
+	const streamOptions = results.CA.flatrate;
+
 	// Overlay for background image
 	displayBackgroundImage('movie', movie.backdrop_path);
 
@@ -118,6 +122,18 @@ async function displayMovieDetails() {
         <p>
           ${movie.overview}
         </p>
+        ${
+					streamOptions
+						? `
+          <h5>Stream Options</h5>
+          <ul class="stream-options">
+            ${streamOptions
+							.map((option) => `<li>${option.provider_name}</li>`)
+							.join('')}
+          </ul>
+        `
+						: ''
+				}
         <h5>Genres</h5>
         <ul class="list-group">
         ${movie.genres.map((genre) => `<li>${genre.name}</li>`).join('')}
@@ -170,6 +186,12 @@ async function displayShowDetails() {
 
 	const show = await fetchAPIData(`tv/${showId}`);
 
+	const { results } = await fetchAPIData(`tv/${showId}/watch/providers`);
+
+	const streamOptions = results.CA.flatrate;
+
+	console.log(streamOptions);
+
 	// Overlay for background image
 	displayBackgroundImage('tv', show.backdrop_path);
 
@@ -202,6 +224,18 @@ async function displayShowDetails() {
         <p>
           ${show.overview}
         </p>
+        ${
+					streamOptions
+						? `
+          <h5>Stream Options</h5>
+          <ul class="stream-options">
+            ${streamOptions
+							.map((option) => `<li>${option.provider_name}</li>`)
+							.join('')}
+          </ul>
+        `
+						: ''
+				}
         <h5>Genres</h5>
         <ul class="list-group">
         ${show.genres.map((genre) => `<li>${genre.name}</li>`).join('')}
@@ -363,14 +397,14 @@ function displayPagination() {
 	// Next page
 	document.querySelector('#next').addEventListener('click', async () => {
 		global.search.page++;
-		const { results, total_pages } = await searchAPIData();
+		const { results } = await searchAPIData();
 		displaySearchResults(results);
 	});
 
 	// Previous page
 	document.querySelector('#prev').addEventListener('click', async () => {
 		global.search.page--;
-		const { results, total_pages } = await searchAPIData();
+		const { results } = await searchAPIData();
 		displaySearchResults(results);
 	});
 }
