@@ -88,7 +88,7 @@ async function displayMovieDetails() {
 
 	const { results } = await fetchAPIData(`movie/${movieId}/watch/providers`);
 
-	const streamOptions = results.CA.flatrate;
+	//const streamOptions = results.CA.flatrate;
 
 	// Overlay for background image
 	displayBackgroundImage('movie', movie.backdrop_path);
@@ -123,11 +123,11 @@ async function displayMovieDetails() {
           ${movie.overview}
         </p>
         ${
-					streamOptions
+					results?.CA?.flatrate
 						? `
           <h5>Stream Options</h5>
           <ul class="stream-options">
-            ${streamOptions
+            ${results?.CA?.flatrate
 							.map((option) => `<li>${option.provider_name}</li>`)
 							.join('')}
           </ul>
@@ -188,10 +188,6 @@ async function displayShowDetails() {
 
 	const { results } = await fetchAPIData(`tv/${showId}/watch/providers`);
 
-	const streamOptions = results.CA.flatrate;
-
-	console.log(streamOptions);
-
 	// Overlay for background image
 	displayBackgroundImage('tv', show.backdrop_path);
 
@@ -225,11 +221,11 @@ async function displayShowDetails() {
           ${show.overview}
         </p>
         ${
-					streamOptions
+					results?.CA?.flatrate
 						? `
           <h5>Stream Options</h5>
           <ul class="stream-options">
-            ${streamOptions
+            ${results.CA.flatrate
 							.map((option) => `<li>${option.provider_name}</li>`)
 							.join('')}
           </ul>
