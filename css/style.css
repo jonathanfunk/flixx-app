@@ -224,7 +224,8 @@ section h2 {
 }
 
 .details-top img {
-	width: 400px;
+	width: 100%;
+	max-width: 400px;
 	height: 100%;
 	margin-right: 60px;
 	object-fit: cover;
@@ -247,6 +248,15 @@ section h2 {
 	padding-bottom: 8px;
 	border-bottom: 1px solid #fff;
 	border-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+	.details-top {
+		display: block;
+	}
+	.details-top img {
+		margin-right: 0;
+	}
 }
 
 /* Search */
